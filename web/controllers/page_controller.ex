@@ -43,6 +43,14 @@ defmodule TacnoAb.PageController do
   end
 
   def convert(conn, params) do
-    
+    name = params["name"]
+    experiment = Ab |> Repo.get_by(name: name)
+
+    if experiment == nil do
+      json conn, %{ ok: false, error: "You must pass an exist experiment" }
+    end
+
+    Redis.command(~w(INCR #{params["name"]}_#{params["side"]}))
+    json conn, %{ ok: true }
   end
 end

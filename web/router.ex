@@ -19,6 +19,7 @@ defmodule TacnoAb.Router do
     get "/create", PageController, :create
     get "/sort/:name/:side", PageController, :sort
     get "/sort/:name", PageController, :sort
+    get "/convert/:name/:side", PageController, :convert
   end
 
   scope "/", TacnoAb do
