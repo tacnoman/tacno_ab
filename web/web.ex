@@ -36,6 +36,7 @@ defmodule TacnoAb.Web do
 
       import TacnoAb.Router.Helpers
       import TacnoAb.Gettext
+      alias TacnoAb.RedixPool, as: Redis
     end
   end
 

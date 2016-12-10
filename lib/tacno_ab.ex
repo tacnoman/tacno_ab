@@ -14,6 +14,7 @@ defmodule TacnoAb do
       supervisor(TacnoAb.Endpoint, []),
       # Start your own worker by calling: TacnoAb.Worker.start_link(arg1, arg2, arg3)
       # worker(TacnoAb.Worker, [arg1, arg2, arg3]),
+      supervisor(TacnoAb.RedixPool, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

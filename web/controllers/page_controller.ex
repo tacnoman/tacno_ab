@@ -11,12 +11,11 @@ defmodule TacnoAb.PageController do
       json conn, %{ ok: false, error: "You must pass param name" }
     end
 
-    {:ok, redix} = Redix.start_link()
-    Redix.command(redix, ~w(SET #{params["name"]}_a 0))
-    Redix.command(redix, ~w(SET #{params["name"]}_pv_a 0))
-    Redix.command(redix, ~w(SET #{params["name"]}_b 0))
-    Redix.command(redix, ~w(SET #{params["name"]}_pv_b 0))
-    Redix.stop(redix)
+    Redis.command(~w(SET #{params["name"]}_a 0))
+    Redis.command(~w(SET #{params["name"]}_pv_a 0))
+    Redis.command(~w(SET #{params["name"]}_b 0))
+    Redis.command(~w(SET #{params["name"]}_pv_b 0))
+    Redis.stop(redix)
 
     experiment = %Ab{ name: params["name"], a: 0, b: 0, a_pv: 0, b_pv: 0} |> Repo.insert!
     json conn, %{ ok: true, experiment: experiment.name }
@@ -40,9 +39,8 @@ defmodule TacnoAb.PageController do
       end
     end
 
-    {:ok, redix} = Redix.start_link()
-    Redix.command(redix, ~w(INCR #{params["name"]}_pv_#{side}))
-    Redix.stop(redix)
+    # {:ok, redix} = Redix.start_link()
+    Redis.command(~w(INCR #{params["name"]}_pv_#{side}))
 
     json conn, %{ side: side }
   end
