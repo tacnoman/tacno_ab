@@ -15,7 +15,8 @@ config :tacno_ab, TacnoAb.Endpoint,
   secret_key_base: "kXQGPj6D2lIXEQFVTjaPNWHuxzgujk8+UuDZzV6t/jgJzNglA3QiXpNOsTBIiU5h",
   render_errors: [view: TacnoAb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: TacnoAb.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+           adapter: Phoenix.PubSub.Redis,
+          host: "localhost", node_name: "tacno_ab"] # System.get_env("NODE")
 
 # Configures Elixir's Logger
 config :logger, :console,

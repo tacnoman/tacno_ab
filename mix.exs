@@ -19,7 +19,7 @@ defmodule TacnoAb.Mixfile do
   def application do
     [mod: {TacnoAb, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :mongodb_ecto]]
   end
 
   # Specifies which paths to compile per environment.
@@ -32,12 +32,14 @@ defmodule TacnoAb.Mixfile do
   defp deps do
     [{:phoenix, "~> 1.2.1"},
      {:phoenix_pubsub, "~> 1.0"},
-     {:phoenix_ecto, "~> 3.0"},
-     {:postgrex, ">= 0.0.0"},
-     {:phoenix_html, "~> 2.6"},
+     {:phoenix_ecto, "~> 1.0"},
+     {:phoenix_html, "~> 2.3.0"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:mongodb_ecto, "~> 0.1.5"},
+     {:ecto, "~> 1.0.0"}
+    ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
