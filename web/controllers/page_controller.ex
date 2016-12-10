@@ -7,9 +7,16 @@ defmodule TacnoAb.PageController do
   end
 
   def create(conn, params) do
-    unless "name" in params do
+    unless Dict.has_key?(params, "name") do
       json conn, %{ ok: false, error: "You must pass param name" }
     end
+
+    {:ok, redix} = Redix.start_link()
+    Redix.command(redix, ~w(SET #{params["name"]}_a 0))
+    Redix.command(redix, ~w(SET #{params["name"]}_pv_a 0))
+    Redix.command(redix, ~w(SET #{params["name"]}_b 0))
+    Redix.command(redix, ~w(SET #{params["name"]}_pv_b 0))
+    Redix.stop(redix)
 
     experiment = %Ab{ name: params["name"], a: 0, b: 0, a_pv: 0, b_pv: 0} |> Repo.insert!
     json conn, %{ ok: true, experiment: experiment.name }
@@ -26,21 +33,17 @@ defmodule TacnoAb.PageController do
     if Dict.has_key?(params, "side") and (params["side"] == "a" or params["side"] == "b") do
       side = params["side"]
     else
-      vv = :rand.uniform(100)-1
+      rand = :rand.uniform(100)-1
       side = "a"
-      if vv > 50 do
+      if rand > 50 do
         side = "b"
       end
     end
 
-    if side == "a" do
-      value = experiment.a_pv + 1
-      experiment = %{ experiment | a_pv: value}
-    else
-      value = experiment.b_pv + 1
-      experiment = %{ experiment | b_pv: value}
-    end
-    Repo.update!(experiment)
+    {:ok, redix} = Redix.start_link()
+    Redix.command(redix, ~w(INCR #{params["name"]}_pv_#{side}))
+    Redix.stop(redix)
+
     json conn, %{ side: side }
   end
 end

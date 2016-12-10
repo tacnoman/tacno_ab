@@ -19,7 +19,7 @@ defmodule TacnoAb.Mixfile do
   def application do
     [mod: {TacnoAb, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :mongodb_ecto]]
+                    :phoenix_ecto, :mongodb_ecto, :redix]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,7 +38,8 @@ defmodule TacnoAb.Mixfile do
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:mongodb_ecto, "~> 0.1.5"},
-     {:ecto, "~> 1.0.0"}
+     {:ecto, "~> 1.0.0"},
+     {:redix, ">= 0.0.0"}
     ]
   end
 
