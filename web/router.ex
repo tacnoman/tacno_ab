@@ -13,6 +13,14 @@ defmodule TacnoAb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", TacnoAb do
+    pipe_through :browser
+
+    get "/create", PageController, :create
+    get "/sort/:name/:side", PageController, :sort
+    get "/sort/:name", PageController, :sort
+  end
+
   scope "/", TacnoAb do
     pipe_through :browser # Use the default browser stack
 
