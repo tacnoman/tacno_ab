@@ -35,9 +35,7 @@ config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
 config :tacno_ab, TacnoAb.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  #username: "mongodb",
+  #password: "",
   database: "tacno_ab_dev",
-  hostname: "localhost",
-  pool_size: 10
+  hostname: "localhost"
